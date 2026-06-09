@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Corrida para Iniciantes</title>
+  <style>
+    :root{
+      --verde-1:#0f9d58;
+      --verde-2:#22c55e;
+      --verde-3:#dcfce7;
+      --verde-4:#14532d;
+      --bg:#f5f7fb;
+      --texto:#1f2937;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --sombra:0 10px 30px rgba(0,0,0,0.08);
+      --radius:22px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--texto);
+      line-height:1.6;
+    }
+
+    .container{
+      width:min(1120px, 92%);
+      margin:0 auto;
+    }
+
+    header{
+      background: linear-gradient(135deg, var(--verde-1), var(--verde-2));
+      color:#fff;
+      padding: 32px 0 70px;
+      position: relative;
+      overflow:hidden;
+    }
+
+    header::before,
+    header::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      background: rgba(255,255,255,0.10);
+      filter: blur(2px);
+    }
+
+    header::before{
+      width:260px;
+      height:260px;
+      top:-80px;
+      right:-60px;
+    }
+
+    header::after{
+      width:180px;
+      height:180px;
+      bottom:-40px;
+      left:-40px;
+    }
+
+    nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding-bottom:24px;
+      position:relative;
+      z-index:2;
+    }
+
+    .logo{
+      font-size:1.1rem;
+      font-weight:bold;
+      letter-spacing:0.3px;
+    }
+
+    .menu{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .menu a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+      opacity:0.95;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:28px;
+      align-items:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .badge{
+      display:inline-block;
+      background: rgba(255,255,255,0.15);
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:0.9rem;
+      margin-bottom:18px;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero h1{
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height:1.1;
+      margin-bottom:18px;
+    }
+
+    .hero p{
+      font-size:1.05rem;
+      color: #f0fdf4;
+      max-width: 700px;
+    }
+
+    .hero-buttons{
+      margin-top:24px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:14px 20px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:bold;
+      transition:0.2s ease;
+      display:inline-block;
+    }
+
+    .btn-primary{
+      background:#fff;
+      color:var(--verde-1);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-secondary{
+      border:1px solid rgba(255,255,255,0.35);
+      color:#fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .hero-card{
+      background: rgba(255,255,255,0.14);
+      border:1px solid rgba(255,255,255,0.18);
+      border-radius: 26px;
+      padding:22px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--sombra);
+    }
+
+    .hero-card h3{
+      margin-bottom:8px;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+      color:#dcfce7;
+    }
+
+    .hero-card p{
+      color:#fff;
+      font-size:1rem;
+    }
+
+    main{
+      margin-top:-36px;
+      position:relative;
+      z-index:5;
+      padding-bottom:40px;
+    }
+
+    section{
+      background:var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--sombra);
+      padding:28px;
+      margin-bottom:24px;
+    }
+
+    .section-title{
+      color:var(--verde-1);
+      font-size:0.9rem;
+      text-transform:uppercase;
+      letter-spacing:1.6px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    h2{
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom:16px;
+      color:#111827;
+    }
+
+    .intro-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:20px;
+    }
+
+    .card-dark{
+      background:#0f172a;
+      color:#fff;
+      border-radius: var(--radius);
+      padding:24px;
+    }
+
+    .card-dark ul{
+      margin-top:14px;
+      padding-left:18px;
+    }
+
+    .card-dark li{
+      margin-bottom:10px;
+    }
+
+    .alert{
+      margin-top:18px;
+      background: rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:14px;
+      font-size:0.95rem;
+    }
+
+    .highlights{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+
+    .highlight-card{
+      background: #f0fdf4;
+      border:1px solid #d1fae5;
+      border-radius:18px;
+      padding:20px;
+      text-align:left;
+    }
+
+    .highlight-card .icon{
+      font-size:2rem;
+      margin-bottom:8px;
+    }
+
+    .highlight-card h3{
+      margin-bottom:8px;
+      font-size:1.1rem;
+    }
+
+    .plan-grid{
+      display:grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap:20px;
+    }
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius:18px;
+      font-size:0.93rem;
+    }
+
+    thead{
+      background: var(--verde-1);
+      color:#fff;
+    }
+
+    th, td{
+      padding:14px 16px;
+      text-align:left;
+      vertical-align:top;
+      border-bottom:1px solid #e5e7eb;
+    }
+
+    tbody tr:nth-child(even){
+      background:#f9fafb;
+    }
+
+    .gradual-text{
+      margin-bottom:18px;
+      color:var(--muted);
+    }
+
+    .bars{
+      margin-top:20px;
+    }
+
+    .bar-item{
+      margin-bottom:16px;
+    }
+
+    .bar-label{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:6px;
+      font-size:0.95rem;
+      font-weight:600;
+    }
+
+    .bar-track{
+      width:100%;
+      height:14px;
+      background:#e5e7eb;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar-fill{
+      height:100%;
+      background: linear-gradient(to right, #22c55e, #84cc16);
+      border-radius:999px;
+    }
+
+    .health-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+
+    .health-card{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:18px;
+      padding:22px;
+    }
+
+    .health-card .icon{
+      font-size:2rem;
+      margin-bottom:10px;
+    }
+
+    .imc-grid{
+      display:grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap:20px;
+    }
+
+    .imc-box{
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
+      border-radius:18px;
+      padding:20px;
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:6px;
+      margin-top:14px;
+    }
+
+    input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #d1d5db;
+      font-size:1rem;
+    }
+
+    button{
+      margin-top:18px;
+      width:100%;
+      border:none;
+      background: linear-gradient(to right, var(--verde-1), var(--verde-2));
+      color:#fff;
+      font-weight:bold;
+      padding:14px;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:1rem;
+    }
+
+    button:hover{
+      opacity:0.95;
+    }
+
+    #resultado{
+      margin-top:16px;
+      padding:14px;
+      border-radius:14px;
+      background:#ecfdf5;
+      border:1px solid #bbf7d0;
+      font-weight:bold;
+      color:var(--verde-4);
+      min-height:54px;
+    }
+
+    .mini-note{
+      font-size:0.92rem;
+      color:var(--muted);
+      margin-top:12px;
+    }
+
+    footer{
+      background:#0f172a;
+      color:#cbd5e1;
+      text-align:center;
+      padding:22px;
+      font-size:0.95rem;
+      margin-top:10px;
+    }
+
+    @media (max-width: 920px){
+      .hero,
+      .intro-grid,
+      .plan-grid,
+      .imc-grid{
+        grid-template-columns:1fr;
+      }
+
+      .highlights,
+      .health-grid{
+        grid-template-columns:1fr;
+      }
+
+      nav{
+        flex-direction:column;
+        gap:14px;
+        align-items:flex-start;
+      }
+
+      .menu{
+        gap:12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">🏃 Corrida para Iniciantes</div>
+        <div class="menu">
+          <a href="#inicio">Início</a>
+          <a href="#planilha">Planilha</a>
+          <a href="#imc">IMC</a>
+          <a href="#saude">Saúde</a>
+        </div>
+      </nav>
+
+      <div class="hero">
+        <div>
+          <span class="badge">Saúde • Educação • Bem-estar • Corrida</span>
+          <h1>Comece a correr com mais segurança, constância e confiança.</h1>
+          <p>
+            Este site foi desenvolvido para orientar iniciantes na corrida por meio de informações simples,
+            progressão de treino e cuidados essenciais com a saúde. A proposta é mostrar que, no início,
+            o foco não deve estar no ritmo ou no <em>pace</em>, mas sim na adaptação do corpo e na conclusão
+            das distâncias propostas com segurança.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#planilha" class="btn btn-primary">Ver planilha de 8 semanas</a>
+            <a href="#imc" class="btn btn-secondary">Usar calculadora de IMC</a>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <h3>Objetivo do site</h3>
+          <p>
+            Apoiar pessoas iniciantes na corrida com conteúdo educativo, orientações preventivas
+            e uma planilha progressiva que favoreça uma rotina mais segura e saudável.
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="inicio">
+      <div class="intro-grid">
+        <div>
+          <p class="section-title">Introdução à corrida</p>
+          <h2>Um início mais consciente faz toda a diferença.</h2>
+
+          <p>
+            A corrida é uma das formas mais acessíveis de atividade física e pode trazer benefícios importantes
+            para a saúde, como melhora do condicionamento físico, redução do estresse, fortalecimento muscular e
+            criação de uma rotina mais ativa. No entanto, para quem está começando, o excesso de informações soltas
+            e a comparação com corredores mais experientes podem tornar esse processo confuso.
+          </p>
+
+          <p style="margin-top:14px;">
+            No início, não é necessário se preocupar com velocidade, desempenho ou ritmo — também conhecido como
+            <em>pace</em>. O mais importante é construir consistência, respeitar os limites do corpo e focar em completar
+            as distâncias propostas de maneira confortável e progressiva. Evoluir na corrida não significa correr rápido,
+            mas sim desenvolver resistência com segurança.
+          </p>
+
+          <p style="margin-top:14px;">
+            Pensando nisso, este site reúne orientações introdutórias, cuidados com a saúde, uma planilha básica de treino
+            e uma calculadora de IMC com finalidade educativa, oferecendo um ponto de apoio simples para pessoas que desejam
+            iniciar a corrida de forma mais organizada.
+          </p>
+        </div>
+
+        <div class="card-dark">
+          <p class="section-title" style="color:#86efac;">Para quem é este site?</p>
+          <ul>
+            <li>Pessoas sedentárias que desejam começar a correr com orientação básica.</li>
+            <li>Iniciantes que buscam uma planilha simples, progressiva e fácil de entender.</li>
+            <li>Usuários interessados em melhorar saúde, bem-estar e rotina física com mais segurança.</li>
+          </ul>
+
+          <div class="alert">
+            <strong>Atenção:</strong> este site tem caráter educativo e não substitui avaliação de profissionais
+            de saúde ou educação física.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <p class="section-title">Destaques do projeto</p>
+      <h2>Informações organizadas para facilitar o início.</h2>
+
+      <div class="highlights">
+        <div class="highlight-card">
+          <div class="icon">📈</div>
+          <h3>Plano gradual</h3>
+          <p>A evolução acontece em oito semanas, respeitando adaptação física e reduzindo sobrecarga.</p>
+        </div>
+
+        <div class="highlight-card">
+          <div class="icon">🛡️</div>
+          <h3>Foco em segurança</h3>
+          <p>O conteúdo incentiva aquecimento, descanso, hidratação e progressão consciente dos treinos.</p>
+        </div>
+
+        <div class="highlight-card">
+          <div class="icon">💚</div>
+          <h3>Saúde e bem-estar</h3>
+          <p>O site orienta iniciantes a criar uma rotina mais ativa com informações claras e acessíveis.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="planilha">
+      <div class="plan-grid">
+        <div>
+          <p class="section-title">Planilha de treino</p>
+          <h2>5 km em 8 semanas</h2>
+          <p class="gradual-text">
+            Esta planilha foi construída com foco em progressão gradual, adaptação do corpo e prevenção de lesões,
+            priorizando consistência ao invés de velocidade.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Semana</th>
+                <th>Dia 1</th>
+                <th>Dia 2</th>
+                <th>Dia 3</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>20 min: 1 min corrida + 2 min caminhada (repetir)</td>
+                <td>20 min: 1 min corrida + 2 min caminhada</td>
+                <td>20 min: 1 min corrida + 2 min caminhada</td>
+                <td>Foque em correr leve, sem forçar o ritmo</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>25 min: 2 min corrida + 2 min caminhada</td>
+                <td>25 min: 2 min corrida + 2 min caminhada</td>
+                <td>25 min: 2 min corrida + 2 min caminhada</td>
+                <td>Já comece a prestar atenção na respiração</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>30 min: 3 min corrida + 2 min caminhada</td>
+                <td>30 min: 3 min corrida + 2 min caminhada</td>
+                <td>30 min: 3 min corrida + 2 min caminhada</td>
+                <td>Comece a alongar bem após os treinos</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>30 min: 4 min corrida + 1 min caminhada</td>
+                <td>30 min: 4 min corrida + 1 min caminhada</td>
+                <td>30 min: 4 min corrida + 1 min caminhada</td>
+                <td>Mantenha o ritmo confortável</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>35 min: 5 min corrida + 1 min caminhada</td>
+                <td>35 min: 5 min corrida + 1 min caminhada</td>
+                <td>35 min: 5 min corrida + 1 min caminhada</td>
+                <td>Se sentir bem, pode aumentar um pouco o ritmo</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>40 min: 8 min corrida + 1 min caminhada</td>
+                <td>40 min: 8 min corrida + 1 min caminhada</td>
+                <td>40 min: 8 min corrida + 1 min caminhada</td>
+                <td>Já começa a se aproximar dos 5 km</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>45 min: 10 min corrida + 1 min caminhada</td>
+                <td>45 min: 10 min corrida + 1 min caminhada</td>
+                <td>45 min: 10 min corrida + 1 min caminhada</td>
+                <td>Se quiser, experimente correr 3 km direto</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Corrida contínua: tente 4 km</td>
+                <td>Corrida contínua: tente 5 km</td>
+                <td>Corrida leve de recuperação (2 a 3 km)</td>
+                <td>Sua primeira tentativa oficial de 5 km</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <a
+            href="#"
+            onclick="baixarPlanilha(event)"
+            class="btn btn-primary"
+            style="margin-top:16px;"
+          >
+            📥 Baixar planilha
+          </a>
+        </div>
+
+        <div>
+          <p class="section-title">Progresso</p>
+          <h2>Evolução semanal</h2>
+          <p class="gradual-text">
+            O gráfico abaixo representa de forma visual a progressão do treino ao longo das oito semanas,
+            mostrando o aumento gradual da exigência e da adaptação do corpo.
+          </p>
+
+          <div class="bars">
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 1</span><span>10%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 2</span><span>20%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 3</span><span>30%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 4</span><span>40%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:40%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 5</span><span>50%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 6</span><span>65%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:65%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 7</span><span>82%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:82%"></div></div>
+            </div>
+            <div class="bar-item">
+              <div class="bar-label"><span>Semana 8</span><span>100%</span></div>
+              <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="imc">
+      <div class="imc-grid">
+        <div>
+          <p class="section-title">Calculadora educativa</p>
+          <h2>Calculadora de IMC</h2>
+          <p>
+            O IMC (Índice de Massa Corporal) é um indicador simples utilizado para relacionar peso e altura.
+            Nesta página, a calculadora tem finalidade exclusivamente educativa, servindo como recurso adicional
+            de orientação em saúde.
+          </p>
+
+          <div class="imc-box">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" placeholder="Ex.: 70" />
+
+            <label for="altura">Altura (m)</label>
+            <input type="number" step="0.01" id="altura" placeholder="Ex.: 1.70" />
+
+            <button onclick="calcularIMC()">Calcular IMC</button>
+            <div id="resultado">Preencha os campos e clique em calcular.</div>
+
+            <p class="mini-note">
+              Faixas comumente utilizadas: abaixo de 18,5 (baixo peso), 18,5 a 24,9 (adequado),
+              25 a 29,9 (sobrepeso), 30 ou mais (obesidade).
+            </p>
+          </div>
+        </div>
+
+        <div class="imc-box">
+          <h3 style="margin-bottom:10px;">Como interpretar com cuidado</h3>
+          <p>
+            O IMC é uma medida simples que relaciona peso e altura. A redução de gordura corporal pode contribuir diretamente para a evolução na corrida, pois melhora a eficiência do movimento, reduz o impacto nas articulações e facilita a progressão nos treinos.
+          </p>
+
+          <p style="margin-top:14px;">
+            Para quem está iniciando na corrida, o mais importante é priorizar progressão gradual, constância,
+            recuperação adequada e acompanhamento profissional quando necessário.
+          </p>
+
+          <p style="margin-top:14px;">
+            O objetivo deste recurso é ampliar a educação em saúde dentro do projeto, sem substituir orientações
+            de profissionais especializados.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="saude">
+      <p class="section-title">Cuidados com a saúde</p>
+      <h2>Boas práticas para começar com mais segurança</h2>
+
+      <div class="health-grid">
+        <div class="health-card">
+          <div class="icon">👟</div>
+          <h3>Antes do treino</h3>
+          <p>Faça aquecimento com caminhada leve, use um tênis adequado e escolha um ritmo confortável para respeitar a adaptação do corpo.</p>
+        </div>
+
+        <div class="health-card">
+          <div class="icon">💧</div>
+          <h3>Durante o processo</h3>
+          <p>Mantenha hidratação, siga dias alternados de treino e evite aumentar volume ou intensidade de forma brusca.</p>
+        </div>
+
+        <div class="health-card">
+          <div class="icon">🩺</div>
+          <h3>Sinais de atenção</h3>
+          <p>Se houver dor persistente, principalmente na região da canela, reduza a carga e procure avaliação profissional antes de continuar.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <h2 style="font-size:1.4rem; margin-bottom:10px;">Prevenção e cuidados com a canelite</h2>
+        <p>
+          A canelite é uma dor comum em iniciantes na corrida e geralmente está associada ao aumento rápido de carga ou impacto repetitivo. Seguir orientações básicas pode ajudar a prevenir e reduzir esse problema.
+        </p>
+        <ul style="margin-top:12px; padding-left:18px;">
+          <li>Reduza o volume de treino temporariamente se estiver sentido dor na canela </li>
+          <li>Prefira superfícies mais macias (como grama ou pista)</li>
+          <li>Use um tênis adequado</li>
+          <li>Faça alongamento para panturrilha</li>
+          <li>Evite aumentar treino muito rápido</li>
+	  <li>Faça treino de fortalecimentos</li>
+        </ul>
+      <div style="margin-top:20px;">
+  <h2 style="font-size:1.4rem; margin-bottom:10px;">
+    Vídeo explicativo sobre canelite
+  </h2>
+
+  <p>
+    Assista a este vídeo para entender melhor as causas da canelite
+    e como prevenir essa lesão comum em iniciantes na corrida:
+  </p>
+
+  <iframe 
+    width="100%" 
+    height="300" 
+    src="https://www.youtube.com/embed/w5lFNcGfDy0"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
+    </section>
+
+  </main>
+
+  <footer>
+    Projeto acadêmico desenvolvido para orientação educativa de iniciantes na corrida.
+  </footer>
+
+  <script>
+    function calcularIMC() {
+      const peso = parseFloat(document.getElementById("peso").value);
+      const altura = parseFloat(document.getElementById("altura").value);
+      const resultado = document.getElementById("resultado");
+
+      if (!peso || !altura || peso <= 0 || altura <= 0) {
+        resultado.innerHTML = "Por favor, informe valores válidos de peso e altura.";
+        return;
+      }
+
+      const imc = peso / (altura * altura);
+      let classificacao = "";
+
+      if (imc < 18.5) {
+        classificacao = "baixo peso";
+      } else if (imc < 25) {
+        classificacao = "peso adequado";
+      } else if (imc < 30) {
+        classificacao = "sobrepeso";
+      } else {
+        classificacao = "obesidade";
+      }
+
+      resultado.innerHTML = "Seu IMC é <strong>" + imc.toFixed(2) + "</strong> (" + classificacao + ").";
+    }
+
+    function baixarPlanilha(event) {
+      event.preventDefault();
+
+      const conteudo =
+`PLANILHA DE TREINO - 5 KM EM 8 SEMANAS
+
+Semana 1
+Dia 1: 20 min: 1 min corrida + 2 min caminhada (repetir)
+Dia 2: 20 min: 1 min corrida + 2 min caminhada
+Dia 3: 20 min: 1 min corrida + 2 min caminhada
+Observações: Foque em correr leve, sem forçar o ritmo
+
+Semana 2
+Dia 1: 25 min: 2 min corrida + 2 min caminhada
+Dia 2: 25 min: 2 min corrida + 2 min caminhada
+Dia 3: 25 min: 2 min corrida + 2 min caminhada
+Observações: Já comece a prestar atenção na respiração
+
+Semana 3
+Dia 1: 30 min: 3 min corrida + 2 min caminhada
+Dia 2: 30 min: 3 min corrida + 2 min caminhada
+Dia 3: 30 min: 3 min corrida + 2 min caminhada
+Observações: Comece a alongar bem após os treinos
+
+Semana 4
+Dia 1: 30 min: 4 min corrida + 1 min caminhada
+Dia 2: 30 min: 4 min corrida + 1 min caminhada
+Dia 3: 30 min: 4 min corrida + 1 min caminhada
+Observações: Mantenha o ritmo confortável
+
+Semana 5
+Dia 1: 35 min: 5 min corrida + 1 min caminhada
+Dia 2: 35 min: 5 min corrida + 1 min caminhada
+Dia 3: 35 min: 5 min corrida + 1 min caminhada
+Observações: Se sentir bem, pode aumentar um pouco o ritmo
+
+Semana 6
+Dia 1: 40 min: 8 min corrida + 1 min caminhada
+Dia 2: 40 min: 8 min corrida + 1 min caminhada
+Dia 3: 40 min: 8 min corrida + 1 min caminhada
+Observações: Já começa a se aproximar dos 5 km
+
+Semana 7
+Dia 1: 45 min: 10 min corrida + 1 min caminhada
+Dia 2: 45 min: 10 min corrida + 1 min caminhada
+Dia 3: 45 min: 10 min corrida + 1 min caminhada
+Observações: Se quiser, experimente correr 3 km direto
+
+Semana 8
+Dia 1: Corrida contínua: tente 4 km
+Dia 2: Corrida contínua: tente 5 km
+Dia 3: Corrida leve de recuperação (2 a 3 km)
+Observações: Sua primeira tentativa oficial de 5 km`;
+
+      const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "planilha-5km-8-semanas.txt";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+</body>
+</html>
